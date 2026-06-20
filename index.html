@@ -1,31 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JARVIS</title>
-<script>
-  // Fetches the latest tunnel URL from the Gist and redirects there.
-  var gistRawUrl = "https://gist.githubusercontent.com/chickensandwhich/9160fcc19bc9bcf9f92850db110bae09/raw/jarvis_url.txt";
-
+</head>
+<body bgcolor="#000000" text="#00aaff" link="#00aaff">
+<center>
+<h2>J.A.R.V.I.S</h2>
+<p>Tap the link below to open JARVIS:</p>
+<p><a href="https://api.github.com/gists/9160fcc19bc9bcf9f92850db110bae09">Get Current Link</a></p>
+<p>If that does not work, ask whoever set this up for the current address.</p>
+<script type="text/javascript">
+<!--
+var gistRawUrl = "https://gist.githubusercontent.com/chickensandwhich/9160fcc19bc9bcf9f92850db110bae09/raw/jarvis_url.txt";
+if (window.fetch) {
   fetch(gistRawUrl + "?cachebust=" + Date.now())
     .then(function(response) { return response.text(); })
     .then(function(url) {
       url = url.trim();
       if (url && url.indexOf("http") === 0) {
-        document.getElementById("status").innerText = "Redirecting to JARVIS...";
+        document.body.innerHTML = "<center><h2>J.A.R.V.I.S</h2><p>Redirecting...</p></center>";
         window.location.href = url;
-      } else {
-        document.getElementById("status").innerText = "JARVIS is not running right now. Start it on your PC first.";
       }
     })
-    .catch(function(err) {
-      document.getElementById("status").innerText = "Could not check JARVIS status. Try again.";
-    });
+    .catch(function(err) {});
+} else if (window.XMLHttpRequest) {
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", gistRawUrl, true);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        var url = xhr.responseText.replace(/^\s+|\s+$/g, "");
+        if (url && url.indexOf("http") === 0) {
+          window.location.href = url;
+        }
+      }
+    };
+    xhr.send();
+  } catch (e) {}
+}
+//-->
 </script>
-</head>
-<body style="background:#0a0a0f;color:#00aaff;font-family:monospace;text-align:center;padding-top:100px;">
-  <h2>J.A.R.V.I.S</h2>
-  <p id="status">Checking current address...</p>
+</center>
 </body>
 </html>
