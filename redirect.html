@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JARVIS</title>
+<script>
+  // Fetches the latest tunnel URL from the Gist and redirects there.
+  var gistRawUrl = "https://gist.githubusercontent.com/chickensandwhich/9160fcc19bc9bcf9f92850db110bae09/raw/jarvis_url.txt";
+
+  fetch(gistRawUrl + "?cachebust=" + Date.now())
+    .then(function(response) { return response.text(); })
+    .then(function(url) {
+      url = url.trim();
+      if (url && url.indexOf("http") === 0) {
+        document.getElementById("status").innerText = "Redirecting to JARVIS...";
+        window.location.href = url;
+      } else {
+        document.getElementById("status").innerText = "JARVIS is not running right now. Start it on your PC first.";
+      }
+    })
+    .catch(function(err) {
+      document.getElementById("status").innerText = "Could not check JARVIS status. Try again.";
+    });
+</script>
+</head>
+<body style="background:#0a0a0f;color:#00aaff;font-family:monospace;text-align:center;padding-top:100px;">
+  <h2>J.A.R.V.I.S</h2>
+  <p id="status">Checking current address...</p>
+</body>
+</html>
